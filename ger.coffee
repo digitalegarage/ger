@@ -244,8 +244,8 @@ class GER
     @esm.add_events(events)
     .then( -> events)
 
-  event: (namespace, person, action, thing, dates = {}) ->
-    @esm.add_event(namespace, person,action, thing, dates)
+  event: (namespace, person, action, thing, dates = {}, info) ->
+    @esm.add_event(namespace, person,action, thing, dates, info)
     .then( -> {person: person, action: action, thing: thing})
 
   find_events: (namespace, options = {}) ->
@@ -307,5 +307,3 @@ Errors = require './lib/errors'
 GER.NamespaceDoestNotExist = Errors.NamespaceDoestNotExist
 
 module.exports = RET;
-
-

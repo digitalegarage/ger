@@ -14,6 +14,7 @@ init_events_table = (knex, schema) ->
     table.string('thing').notNullable()
     table.timestamp('created_at').notNullable()
     table.timestamp('expires_at')
+    table.jsonb('info')
 
   ).then( ->
     i1 = knex.raw("create index idx_person_created_at_#{schema}_events on \"#{schema}\".events (person, action, created_at DESC)")
@@ -78,7 +79,7 @@ class PSQLEventStoreManager
     bb.all(promises)
 
 
-  add_event: (namespace, person, action, thing, dates = {}) ->
+  add_event: (namespace, person, action, thing, dates = {}, info) ->
     @add_events([{
       namespace: namespace
       person: person
@@ -86,6 +87,7 @@ class PSQLEventStoreManager
       thing: thing
       created_at: dates.created_at
       expires_at: dates.expires_at
+      info: info
     }])
 
   add_events_to_namespace: (namespace, events) ->
